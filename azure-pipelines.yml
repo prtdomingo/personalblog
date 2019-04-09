@@ -1,0 +1,19 @@
+# Docker image
+# Build a Docker image to deploy, run, or push to a container registry.
+# Add steps that use Docker Compose, tag images, push to a registry, run an image, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- master
+
+pool:
+  vmImage: 'Ubuntu-16.04'
+
+steps:
+- script: docker build -t $(imageName):$(Build.BuildId) -t $(imageName):latest .
+  displayName: 'docker build'
+- script: |
+    docker login $(dockerId).azurecr.io -u $(dockerId) -p $(pswd)
+    docker push $(imageName):$(Build.BuildId)
+    docker push $(imageName):latest
+  displayName: 'docker login and push'
