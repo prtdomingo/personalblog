@@ -5,5 +5,5 @@ RUN cd current && npm link applicationinsights
 
 COPY ./site-config.js /var/lib/ghost/current/
 
-RUN echo "\n\n require('./site-config.js');" >> /var/lib/ghost/current/index.js
+RUN echo "require('./site-config.js');" >> /var/lib/ghost/current/index.js
 
