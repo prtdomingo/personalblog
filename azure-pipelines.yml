@@ -13,7 +13,7 @@ steps:
 - script: docker build -t $(imageName):$(Build.BuildId) -t $(imageName):latest .
   displayName: 'docker build'
 - script: |
-    docker login $(dockerId).azurecr.io -u $(dockerId) -p $(pswd)
+    docker login -u $(dockerId) -p $(pswd) $(dockerId).azurecr.io 
     docker push $(imageName):$(Build.BuildId)
     docker push $(imageName):latest
   displayName: 'docker login and push'
