@@ -11,15 +11,9 @@ pool:
 
 steps:
 - script: docker build -t $(imageName):$(Build.BuildId) -t $(imageName):latest .
-  env: 
-    imageName: $(imageName)
   displayName: 'docker build'
 - script: |
     docker login -u $(dockerId) -p $(pswd) $(dockerId).azurecr.io 
-    docker push $(imageName):$(Build.BuildId)
-    docker push $(imageName):latest
-  env:
-    imageName: $(imageName)
-    dockerId: $(dockerId)
-    pswd: $(pswd)
+    docker push $(dockerId).azurecr.io/$(imageName):$(Build.BuildId)
+    docker push $(dockerId).azurecr.io/$(imageName):latest
   displayName: 'docker login and push'
