@@ -39,9 +39,7 @@ ghost().then(function (ghostServer) {
     // All the URL config goes here
     parentApp.all(/.*/, function(req, res, next) {
         var host = req.header("host");
-
-        // add localhost as needed. No plans on running the app locally as of the moment
-        if (host.match(/^www\..*/i) || host.includes(".azurewebsites.net")) {
+        if (host.match(/^www\..*/i)) {
             next();
         } else {
             res.redirect(301, "https://www." + host + req.url);
