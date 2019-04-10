@@ -33,18 +33,18 @@ if (appInsightsKey) {
 debug('Initialising Ghost');
 ghost().then(function (ghostServer) {
 
-    // Mount our Ghost instance on our desired subdirectory path if it exists.
-    parentApp.use(urlService.utils.getSubdir(), ghostServer.rootApp);
-
     // All the URL config goes here
     parentApp.all(/.*/, function(req, res, next) {
         var host = req.header("host");
-        if (host.match(/^www\..*/i)) {
+        if (host.match(/^www\..*/i) || host.includes(".azurewebsites.net")) {
             next();
         } else {
             res.redirect(301, "https://www." + host + req.url);
         }
     });
+
+    // Mount our Ghost instance on our desired subdirectory path if it exists.
+    parentApp.use(urlService.utils.getSubdir(), ghostServer.rootApp);
 
     debug('Starting Ghost');
     // Let Ghost handle starting our server instance.
